@@ -14,7 +14,7 @@ describe Puppet::Type.type(:yumrepo) do
     end
 
     [:baseurl, :cost, :descr, :enabled, :enablegroups, :exclude, :failovermethod,
-     :gpgcheck, :gpgkey, :http_caching, :include, :includepkgs, :keepalive,
+     :gpgcheck, :repo_gpgcheck, :gpgkey, :http_caching, :include, :includepkgs, :keepalive,
      :metadata_expire, :mirrorlist, :priority, :protect, :proxy, :proxy_username,
      :proxy_password, :timeout, :sslcacert, :sslverify, :sslclientcert,
      :sslclientkey, :s3_enabled, :metalink].each do |param|
@@ -25,21 +25,21 @@ describe Puppet::Type.type(:yumrepo) do
   end
 
   describe "When validating attribute values" do
-    [:cost, :enabled, :enablegroups, :failovermethod, :gpgcheck, :http_caching,
+    [:cost, :enabled, :enablegroups, :failovermethod, :gpgcheck, :repo_gpgcheck, :http_caching,
      :keepalive, :metadata_expire, :priority, :protect, :timeout].each do |param|
       it "should support :absent as a value to '#{param}' parameter" do
         Puppet::Type.type(:yumrepo).new(:name => 'puppetlabs', param => :absent)
       end
     end
 
-    [:cost, :enabled, :enablegroups, :gpgcheck, :keepalive, :metadata_expire,
+    [:cost, :enabled, :enablegroups, :gpgcheck, :repo_gpgcheck, :keepalive, :metadata_expire,
      :priority, :protect, :timeout].each do |param|
       it "should fail if '#{param}' is not a number" do
         expect { Puppet::Type.type(:yumrepo).new(:name => "puppetlabs", param => "notanumber") }.to raise_error
       end
     end
 
-    [:enabled, :enabledgroups, :gpgcheck, :keepalive, :protect, :s3_enabled].each do |param|
+    [:enabled, :enabledgroups, :gpgcheck, :repo_gpgcheck, :keepalive, :protect, :s3_enabled].each do |param|
       it "should fail if '#{param}' does not have one of the following values (0|1)" do
         expect { Puppet::Type.type(:yumrepo).new(:name => "puppetlabs", param => "2") }.to raise_error
       end

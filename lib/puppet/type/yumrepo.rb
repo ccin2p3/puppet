@@ -73,6 +73,14 @@ Puppet::Type.newtype(:yumrepo) do
     newvalues(/^(0|1)$/, :absent)
   end
 
+  newproperty(:repo_gpgcheck) do
+    desc "Whether to check the GPG signature on repodata
+      , as represented by a `0` or `1`.
+      #{ABSENT_DOC}"
+
+    newvalues(/^(0|1)$/, :absent)
+  end
+
   newproperty(:gpgkey) do
     desc "The URL for the GPG key with which packages from this
       repository are signed. #{ABSENT_DOC}"
